@@ -207,36 +207,38 @@ function LandingPage() {
         {/* Benefits Section */}
         <section className="bg-[#C8E6C9] rounded-3xl p-8 sm:p-12 border-4 border-[#4CAF50] shadow-[10px_10px_0_rgba(27,94,32,0.2)]">
           <h2 className="text-4xl font-black text-center text-[#1B5E20] mb-10 uppercase tracking-wide">
-            Impact & Benefits
+            ВЛИЯНИЕ И ПРЕИМУЩЕСТВА
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6 text-center">
             <div className="bg-white/50 p-6 rounded-2xl border-2 border-[#81C784]">
               <div className="text-5xl mb-4">📈</div>
               <h3 className="text-xl font-black text-[#2E7D32] mb-2">
-                Farmer Sales
+                Продажи фермеров
               </h3>
               <p className="text-[#1B5E20]">
-                Directly increases sales and market reach for local farmers.
+                Напрямую увеличивает продажи и расширяет рынок сбыта для местных
+                фермеров.
               </p>
             </div>
             <div className="bg-white/50 p-6 rounded-2xl border-2 border-[#81C784]">
               <div className="text-5xl mb-4">🎮</div>
               <h3 className="text-xl font-black text-[#2E7D32] mb-2">
-                Engagement
+                Вовлечённость
               </h3>
               <p className="text-[#1B5E20]">
-                Higher player retention and daily activity through gamification.
+                Повышает удержание игроков и ежедневную активность благодаря
+                игровым механикам.
               </p>
             </div>
             <div className="bg-white/50 p-6 rounded-2xl border-2 border-[#81C784]">
               <div className="text-5xl mb-4">🇺🇿</div>
               <h3 className="text-xl font-black text-[#2E7D32] mb-2">
-                Uzbekistan Growth
+                Развитие Узбекистана
               </h3>
               <p className="text-[#1B5E20]">
-                Contributes to the growth and modernization of agriculture in
-                Uzbekistan.
+                Способствует росту и модернизации сельского хозяйства в
+                Узбекистане.
               </p>
             </div>
           </div>
