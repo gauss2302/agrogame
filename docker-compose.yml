@@ -15,8 +15,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - agrogame-network
-      - dokploy-network
+      - internal
 
   postgres:
     image: postgres:16-alpine
@@ -37,13 +36,11 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
-      - agrogame-network
+      - internal
 
 volumes:
   postgres-data:
 
 networks:
-  agrogame-network:
+  internal:
     driver: bridge
-  dokploy-network:
-    external: true
