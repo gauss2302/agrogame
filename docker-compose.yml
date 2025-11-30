@@ -6,7 +6,7 @@ services:
     container_name: agrogame-app
     restart: unless-stopped
     ports:
-      - "${APP_PORT:-4173}:4173"
+      - "${APP_PORT:-3000}:3000"
     depends_on:
       postgres:
         condition: service_healthy
@@ -22,7 +22,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-agro}
       POSTGRES_DB: ${POSTGRES_DB:-agrogame}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-agro} -d ${POSTGRES_DB:-agrogame}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-agro} -d ${POSTGRES_DB:-agrogame}",
+        ]
       interval: 5s
       timeout: 5s
       retries: 5
