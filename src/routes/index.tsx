@@ -92,7 +92,7 @@ function LandingPage() {
         {/* Bullet Points Section */}
         <section className="bg-[#FFECB3] rounded-3xl p-8 sm:p-12 border-4 border-[#FFA000] shadow-[10px_10px_0_rgba(62,39,35,0.2)] relative">
           <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#FF6F00] text-white font-black text-xl px-8 py-2 rounded-full border-4 border-[#FFD54F] shadow-md uppercase tracking-widest">
-            Why Play?
+            ЗАЧЕМ ИГРАТЬ?
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 mt-6">
@@ -103,11 +103,11 @@ function LandingPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-[#3E2723] mb-1">
-                    Fun & Engaging
+                    Весело и увлекательно
                   </h3>
                   <p className="text-[#5D4037] font-medium">
-                    Users love to play! Experience the joy of farming right from
-                    your phone.
+                    Пользователи любят играть! Испытайте удовольствие от
+                    фермерства прямо со своего телефона.
                   </p>
                 </div>
               </div>
@@ -117,11 +117,11 @@ function LandingPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-[#3E2723] mb-1">
-                    Virtual Farming
+                    Виртуальное фермерство
                   </h3>
                   <p className="text-[#5D4037] font-medium">
-                    Plant seeds, water crops, and watch them grow in a beautiful
-                    virtual world.
+                    Сажайте семена, поливайте урожай и наблюдайте, как он растёт
+                    в красивом виртуальном мире.
                   </p>
                 </div>
               </div>
@@ -133,11 +133,11 @@ function LandingPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-[#3E2723] mb-1">
-                    Real Rewards
+                    Реальные награды
                   </h3>
                   <p className="text-[#5D4037] font-medium">
-                    Get real agricultural products delivered to you by playing
-                    the game.
+                    Получайте настоящие сельскохозяйственные продукты, просто
+                    играя.
                   </p>
                 </div>
               </div>
@@ -147,11 +147,10 @@ function LandingPage() {
                 </div>
                 <div>
                   <h3 className="text-xl font-black text-[#3E2723] mb-1">
-                    Track Progress
+                    Отслеживание прогресса
                   </h3>
                   <p className="text-[#5D4037] font-medium">
-                    Monitor your farm's growth and your contribution to the
-                    ecosystem.
+                    Следите за ростом вашей фермы и вашим вкладом в экосистему.
                   </p>
                 </div>
               </div>
@@ -163,7 +162,7 @@ function LandingPage() {
         <section className="relative">
           <div className="bg-white rounded-3xl p-8 sm:p-12 border-4 border-[#BCAAA4] shadow-[10px_10px_0_rgba(62,39,35,0.2)]">
             <h2 className="text-4xl font-black text-center text-[#3E2723] mb-12 uppercase tracking-wide">
-              How It Works
+              КАК ЭТО РАБОТАЕТ
             </h2>
 
             <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
@@ -171,10 +170,22 @@ function LandingPage() {
               <div className="hidden md:block absolute top-1/2 left-0 w-full h-2 bg-[#D7CCC8] -z-10 -translate-y-1/2 rounded-full"></div>
 
               {[
-                { title: 'Plant', icon: '🌱', desc: 'Choose your crop' },
-                { title: 'Grow', icon: '💧', desc: 'Water & Care' },
-                { title: 'Harvest', icon: '🚜', desc: 'Collect crops' },
-                { title: 'Receive', icon: '🎁', desc: 'Get real goods' },
+                { title: 'Посадка', icon: '🌱', desc: 'Выберите культуру' },
+                {
+                  title: 'Выращивание',
+                  icon: '💧',
+                  desc: 'Поливайте и ухаживайте',
+                },
+                {
+                  title: 'Сбор урожая',
+                  icon: '🚜',
+                  desc: 'Собирайте выращенные культуры',
+                },
+                {
+                  title: 'Получение',
+                  icon: '🎁',
+                  desc: 'Получайте реальные продукты',
+                },
               ].map((step, idx) => (
                 <div
                   key={idx}
