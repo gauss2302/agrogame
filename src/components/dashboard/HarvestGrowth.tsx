@@ -16,7 +16,7 @@ export const HarvestGrowth = () => {
   return (
     <div className="bg-white p-6 rounded-2xl border border-gray-100">
       <div className="flex items-center justify-between mb-8">
-        <h3 className="font-bold text-gray-800">Harvest Growth</h3>
+        <h3 className="font-bold text-gray-800">Рост Урожая</h3>
         <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 hover:bg-gray-100">
           Jan - Jun <ChevronDown size={14} />
         </button>

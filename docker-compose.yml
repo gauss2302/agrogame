@@ -1,4 +1,16 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agrogame-app
+    restart: unless-stopped
+    ports:
+      - "${APP_PORT:-4173}:4173"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   postgres:
     image: postgres:16-alpine
     container_name: agrogame-postgres

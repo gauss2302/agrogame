@@ -41,18 +41,18 @@ export const HarvestCategories = () => {
   return (
     <div className="bg-white p-6 rounded-2xl border border-gray-100">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="font-bold text-gray-800">Top Harvest Categories</h3>
+        <h3 className="font-bold text-gray-800">Топ посадки</h3>
         <button className="text-xs font-bold text-gray-500 flex items-center gap-1 hover:text-gray-700">
-          See All <ChevronRight size={14} />
+          Все <ChevronRight size={14} />
         </button>
       </div>
 
       <div className="space-y-1">
-        <CategoryRow name="Rice" weight={560} change={-4} />
-        <CategoryRow name="Potato" weight={425} change={8} />
-        <CategoryRow name="Chilli" weight={330} change={10} />
-        <CategoryRow name="Cabbage" weight={288} change={-3} />
-        <CategoryRow name="Tomato" weight={258} change={12} />
+        <CategoryRow name="Рис" weight={560} change={-4} />
+        <CategoryRow name="Картошка" weight={425} change={8} />
+        <CategoryRow name="Марковка" weight={330} change={10} />
+        <CategoryRow name="Капуста" weight={288} change={-3} />
+        <CategoryRow name="Помидоры" weight={258} change={12} />
       </div>
     </div>
   )

@@ -27,7 +27,7 @@ export const Sidebar = () => {
       <div className="space-y-8">
         <div>
           <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-            General
+            Общее
           </h3>
           <nav className="space-y-1">
             <Link
@@ -35,28 +35,28 @@ export const Sidebar = () => {
               className="flex items-center gap-3 px-4 py-3 bg-green-50 text-green-700 rounded-lg font-medium"
             >
               <LayoutDashboard size={20} />
-              Dashboard
+              Панель
             </Link>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Wallet size={20} />
-              Financial
+              Финансы
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <CloudSun size={20} />
-              Weather Forecast
+              Прогноз погоды
             </a>
           </nav>
         </div>
 
         <div>
           <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-            Management
+            Управление
           </h3>
           <nav className="space-y-1">
             <a
@@ -64,49 +64,49 @@ export const Sidebar = () => {
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Grid size={20} />
-              Field
+              Поля
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Droplets size={20} />
-              Water Usage
+              Полив
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Sprout size={20} />
-              Harvest Plan
+              План урожая
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Bug size={20} />
-              Pest & Disease
+              Вредители
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Leaf size={20} />
-              Soil & Crop
+              Почва и культуры
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Tractor size={20} />
-              Equipment
+              Оборудование
             </a>
           </nav>
         </div>
 
         <div>
           <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
-            Others
+            Другое
           </h3>
           <nav className="space-y-1">
             <a
@@ -114,21 +114,21 @@ export const Sidebar = () => {
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Users size={20} />
-              User Management
+              Пользователи
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Settings size={20} />
-              Settings
+              Настройки
             </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <HelpCircle size={20} />
-              Help Support
+              Помощь
             </a>
           </nav>
         </div>

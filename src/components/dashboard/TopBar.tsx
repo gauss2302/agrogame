@@ -11,7 +11,7 @@ export const TopBar = () => {
         />
         <input
           type="text"
-          placeholder="Search Data..."
+          placeholder="Поиск данных..."
           className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-xl text-gray-600 focus:outline-none focus:ring-2 focus:ring-green-500/20"
         />
         <div className="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
@@ -37,8 +37,8 @@ export const TopBar = () => {
             className="w-10 h-10 rounded-full object-cover"
           />
           <div className="hidden md:block">
-            <p className="text-sm font-semibold text-gray-800">James Mason</p>
-            <p className="text-xs text-gray-500">Field Surveyor</p>
+            <p className="text-sm font-semibold text-gray-800">Саид Шарипов</p>
+            <p className="text-xs text-gray-500">Агроном</p>
           </div>
           <ChevronDown size={16} className="text-gray-400" />
         </div>

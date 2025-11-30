@@ -23,7 +23,7 @@ export const TotalHarvest = () => {
   return (
     <div className="bg-white p-6 rounded-2xl border border-gray-100">
       <div className="flex items-center justify-between mb-6">
-        <h3 className="font-bold text-gray-800">Total Harvest</h3>
+        <h3 className="font-bold text-gray-800">Общий урожай</h3>
         <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-50 rounded-lg text-xs font-medium text-gray-600 hover:bg-gray-100">
           May <ChevronDown size={14} />
         </button>
@@ -56,7 +56,7 @@ export const TotalHarvest = () => {
           <div className="absolute inset-0 flex flex-col items-center justify-center">
             <span className="text-2xl font-bold text-gray-800">1,456 Kg</span>
             <span className="text-xs text-gray-500 font-medium">
-              Total Harvest
+              Общий урожай
             </span>
           </div>
         </div>
