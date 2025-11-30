@@ -9,10 +9,14 @@ services:
       - "${APP_PORT:-4000}:4000"
     environment:
       - PORT=4000
-      - DATABASE_URL=postgresql://${POSTGRES_USER:-agro}:${POSTGRES_PASSWORD:-agro}@postgres:5432/${POSTGRES_DB:-agrogame}
+      - HOST=0.0.0.0
+      - DATABASE_URL=postgresql://agro:agro@agrogame-postgres:5432/agrogame
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - agrogame-network
+      - dokploy-network
 
   postgres:
     image: postgres:16-alpine
@@ -21,25 +25,25 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-agro}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-agro}
-      POSTGRES_DB: ${POSTGRES_DB:-agrogame}
+      POSTGRES_USER: agro
+      POSTGRES_PASSWORD: agro
+      POSTGRES_DB: agrogame
     healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-agro} -d ${POSTGRES_DB:-agrogame}",
-        ]
+      test: ["CMD-SHELL", "pg_isready -U agro -d agrogame"]
       interval: 5s
       timeout: 5s
       retries: 5
       start_period: 5s
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    networks:
+      - agrogame-network
 
 volumes:
   postgres-data:
 
 networks:
+  agrogame-network:
+    driver: bridge
   dokploy-network:
     external: true
