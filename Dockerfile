@@ -11,22 +11,22 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Install runtime dependencies for migrations
 RUN apk add --no-cache netcat-openbsd
 
+# Copy package files and install ALL deps (need drizzle-kit for migrations)
 COPY package*.json ./
-RUN npm ci --omit=dev && npm install drizzle-kit tsx
+RUN npm ci
 
 # Copy build output
 COPY --from=builder /app/.output ./.output
 
-# Copy config files needed for migrations
-COPY --from=builder /app/drizzle.config.ts ./
-COPY --from=builder /app/src/db ./src/db
-COPY --from=builder /app/src/models ./src/models
-COPY --from=builder /app/tsconfig.json ./
+# Copy files needed for migrations
+COPY drizzle.config.ts ./
+COPY src/db ./src/db
+COPY src/models ./src/models
+COPY tsconfig.json ./
 
-# Copy and setup startup script
+# Copy startup script
 COPY start.sh ./
 RUN chmod +x start.sh
 
