@@ -7,6 +7,9 @@ services:
     restart: unless-stopped
     ports:
       - "${APP_PORT:-4000}:4000"
+    environment:
+      - PORT=4000
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-agro}:${POSTGRES_PASSWORD:-agro}@postgres:5432/${POSTGRES_DB:-agrogame}
     depends_on:
       postgres:
         condition: service_healthy

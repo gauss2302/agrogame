@@ -13,5 +13,5 @@ ENV NODE_ENV=production
 
 COPY --from=builder /app/.output ./.output
 
-EXPOSE 4173
+EXPOSE 4000
 CMD ["node", ".output/server/index.mjs"]
