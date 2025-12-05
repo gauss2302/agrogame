@@ -8,6 +8,7 @@ import { HarvestCategories } from '../components/dashboard/HarvestCategories'
 import { HarvestGrowth } from '../components/dashboard/HarvestGrowth'
 import { SeedsStock } from '../components/dashboard/SeedsStock'
 import { TotalHarvest } from '../components/dashboard/TotalHarvest'
+import { AnalyticsChat } from '../components/dashboard/AnalyticsChat'
 import { getDashboardData } from '@/src/server/dashboard'
 
 export const Route = createFileRoute('/dashboard')({
@@ -51,15 +52,26 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-6 mb-6">
-            <FieldFarms fields={data.fields} />
-            <HarvestCategories categories={data.harvestCategories} />
-          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 space-y-6">
+              <FieldFarms fields={data.fields} />
 
-          <div className="grid grid-cols-3 gap-6">
-            <HarvestGrowth data={data.harvestGrowth} />
-            <SeedsStock entries={data.seedsStock} />
-            <TotalHarvest data={data.totalHarvest} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <HarvestCategories categories={data.harvestCategories} />
+                <TotalHarvest data={data.totalHarvest} />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <HarvestGrowth data={data.harvestGrowth} />
+                <SeedsStock entries={data.seedsStock} />
+              </div>
+            </div>
+
+            <div className="lg:col-span-1">
+              <div className="sticky top-8 h-[calc(100vh-120px)]">
+                <AnalyticsChat />
+              </div>
+            </div>
           </div>
         </main>
       </div>

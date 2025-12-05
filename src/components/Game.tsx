@@ -27,6 +27,19 @@ interface FarmData {
   realCrops: number
 }
 
+const useIsDesktop = () => {
+  const [isDesktop, setIsDesktop] = useState(false)
+
+  useEffect(() => {
+    const checkSize = () => setIsDesktop(window.innerWidth >= 640)
+    checkSize()
+    window.addEventListener('resize', checkSize)
+    return () => window.removeEventListener('resize', checkSize)
+  }, [])
+
+  return isDesktop
+}
+
 export default function Game({ onUpdate }: { onUpdate?: () => void }) {
   const [farm, setFarm] = useState<FarmData | null>(null)
   const [grid, setGrid] = useState<Array<PlotData>>([])
@@ -35,6 +48,7 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
   const [error, setError] = useState<string | null>(null)
   const [notification, setNotification] = useState<string | null>(null)
   const [claimLoading, setClaimLoading] = useState(false)
+  const isDesktop = useIsDesktop()
 
   const loadFarm = useCallback(async () => {
     try {
@@ -332,17 +346,21 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
               const left = (x - y) * (tileWidth / 2) - 75
               const top = (x + y) * (tileHeight / 2) - 270
 
-              return (
-                <div
-                  key={plot.id}
-                  onClick={() => handlePlotClick(plot)}
-                  style={{
+              const plotStyles = isDesktop
+                ? {
                     left: `${left}px`,
                     top: `${top}px`,
                     zIndex: x + y,
                     width: `${tileWidth}px`,
                     height: `${tileWidth}px`,
-                  }}
+                  }
+                : {}
+
+              return (
+                <div
+                  key={plot.id}
+                  onClick={() => handlePlotClick(plot)}
+                  style={plotStyles}
                   className="relative sm:absolute cursor-pointer transition-transform duration-200 hover:-translate-y-2 hover:brightness-110 w-full aspect-square sm:w-[190px] sm:h-[190px]"
                 >
                   <img

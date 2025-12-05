@@ -16,6 +16,11 @@ import {
 import { Link } from '@tanstack/react-router'
 
 export const Sidebar = () => {
+  const navClasses = (isActive: boolean) =>
+    `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
+      isActive ? 'bg-green-50 text-green-700' : 'text-gray-600 hover:bg-gray-50'
+    }`
+
   return (
     <div className="w-64 bg-white h-screen border-r border-gray-100 flex flex-col p-6 fixed left-0 top-0 overflow-y-auto">
       <div className="flex items-center gap-2 mb-10">
@@ -32,7 +37,7 @@ export const Sidebar = () => {
           <nav className="space-y-1">
             <Link
               to="/dashboard"
-              className="flex items-center gap-3 px-4 py-3 bg-green-50 text-green-700 rounded-lg font-medium"
+              className={({ isActive }) => navClasses(isActive)}
             >
               <LayoutDashboard size={20} />
               Панель
@@ -59,13 +64,14 @@ export const Sidebar = () => {
             Управление
           </h3>
           <nav className="space-y-1">
-            <a
-              href="#"
-              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
+            <Link
+              to="/fields"
+              className={`({ isActive: string }) => navClasses(isActive) flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors`}
+              className={({ isActive }) => navClasses(isActive)}
             >
               <Grid size={20} />
               Поля
-            </a>
+            </Link>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
@@ -109,13 +115,6 @@ export const Sidebar = () => {
             Другое
           </h3>
           <nav className="space-y-1">
-            <a
-              href="#"
-              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
-            >
-              <Users size={20} />
-              Пользователи
-            </a>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
