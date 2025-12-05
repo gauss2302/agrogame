@@ -147,6 +147,10 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
       setTimeout(() => handleStageUpdate(plot.id, 'ready'), growTime)
 
       showNotification(`🌱 Посажено ${CROPS[selectedCrop].name}!`)
+
+      if (onUpdate) {
+        onUpdate()
+      }
     } catch (err: any) {
       showNotification(`❌ ${err.message}`)
     }

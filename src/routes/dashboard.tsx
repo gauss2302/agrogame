@@ -1,4 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
+
+import { Calendar, Download, Filter } from 'lucide-react'
 import { Sidebar } from '../components/dashboard/Sidebar'
 import { TopBar } from '../components/dashboard/TopBar'
 import { FieldFarms } from '../components/dashboard/FieldFarms'
@@ -6,13 +8,16 @@ import { HarvestCategories } from '../components/dashboard/HarvestCategories'
 import { HarvestGrowth } from '../components/dashboard/HarvestGrowth'
 import { SeedsStock } from '../components/dashboard/SeedsStock'
 import { TotalHarvest } from '../components/dashboard/TotalHarvest'
-import { Calendar, Download, Filter } from 'lucide-react'
+import { getDashboardData } from '@/src/server/dashboard'
 
 export const Route = createFileRoute('/dashboard')({
+  loader: () => getDashboardData(),
   component: Dashboard,
 })
 
 function Dashboard() {
+  const data = Route.useLoaderData()
+
   return (
     <div className="flex min-h-screen bg-white font-sans">
       <Sidebar />
@@ -28,7 +33,8 @@ function Dashboard() {
 
             <div className="flex items-center gap-3">
               <button className="flex items-center gap-2 px-4 py-2 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">
-                <Calendar size={16} />1 Окт - 15 Окт 2023
+                <Calendar size={16} />
+                Последние 6 месяцев
               </button>
 
               <button className="flex items-center gap-2 px-4 py-2 bg-gray-50 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-100 transition-colors">
@@ -44,14 +50,14 @@ function Dashboard() {
           </div>
 
           <div className="grid grid-cols-3 gap-6 mb-6">
-            <FieldFarms />
-            <HarvestCategories />
+            <FieldFarms fields={data.fields} />
+            <HarvestCategories categories={data.harvestCategories} />
           </div>
 
           <div className="grid grid-cols-3 gap-6">
-            <HarvestGrowth />
-            <SeedsStock />
-            <TotalHarvest />
+            <HarvestGrowth data={data.harvestGrowth} />
+            <SeedsStock entries={data.seedsStock} />
+            <TotalHarvest data={data.totalHarvest} />
           </div>
         </main>
       </div>
