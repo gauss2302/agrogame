@@ -169,7 +169,11 @@ export const getDashboardData = createServerFn().handler(async () => {
   const now = new Date()
   const monthsToShow = 6
   const monthDescriptors = Array.from({ length: monthsToShow }, (_, idx) => {
-    const date = new Date(now.getFullYear(), now.getMonth() - (monthsToShow - 1 - idx), 1)
+    const date = new Date(
+      now.getFullYear(),
+      now.getMonth() - (monthsToShow - 1 - idx),
+      1,
+    )
     return {
       key: `${date.getFullYear()}-${date.getMonth()}`,
       label: date.toLocaleString('en-US', { month: 'short' }),
@@ -252,7 +256,9 @@ export const getDashboardData = createServerFn().handler(async () => {
           ? bucket.current > 0
             ? 100
             : 0
-          : Math.round(((bucket.current - bucket.previous) / bucket.previous) * 100)
+          : Math.round(
+              ((bucket.current - bucket.previous) / bucket.previous) * 100,
+            )
 
       return {
         type,

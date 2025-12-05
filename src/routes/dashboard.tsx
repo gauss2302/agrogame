@@ -12,6 +12,8 @@ import { getDashboardData } from '@/src/server/dashboard'
 
 export const Route = createFileRoute('/dashboard')({
   loader: () => getDashboardData(),
+  staleTime: 0,
+  gcTime: 0,
   component: Dashboard,
 })
 

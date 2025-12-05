@@ -369,7 +369,7 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
                           ${plot.stage === 'planted' ? 'scale-75' : ''}
                           ${plot.stage === 'growing' ? 'scale-75' : ''}
                           ${plot.stage === 'ready' ? 'scale-100 animate-bounce' : ''}
-                          ${(plot.stage !== 'planted' && CROPS[plot.crop]?.className) || ''}`}
+                          ${(plot.stage !== 'planted' && CROPS[plot.crop].className) || ''}`}
                       />
                     </div>
                   )}
