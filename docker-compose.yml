@@ -11,6 +11,10 @@ services:
       - PORT=4000
       - HOST=0.0.0.0
       - DATABASE_URL=postgresql://agro:agro@agrogame-postgres:5432/agrogame
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      - OPENWEATHER_API_KEY=${OPENWEATHER_API_KEY}
+      - DEFAULT_FARM_LAT=${DEFAULT_FARM_LAT:-55.7558}
+      - DEFAULT_FARM_LON=${DEFAULT_FARM_LON:-37.6173}
     depends_on:
       postgres:
         condition: service_healthy
