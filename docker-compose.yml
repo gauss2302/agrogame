@@ -41,6 +41,22 @@ services:
       - postgres-data:/var/lib/postgresql/data
     networks:
       - internal
+  drizzle-studio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: agrogame-drizzle-studio
+    restart: unless-stopped
+    ports:
+      - "${DRIZZLE_PORT:-4983}:4983"
+    environment:
+      - DATABASE_URL=postgresql://agro:agro@agrogame-postgres:5432/agrogame
+    command: npx drizzle-kit studio --host 0.0.0.0 --port 4983
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - internal
 
 volumes:
   postgres-data:
