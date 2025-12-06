@@ -37,25 +37,22 @@ export const Sidebar = () => {
           <nav className="space-y-1">
             <Link
               to="/dashboard"
-              className={({ isActive }) => navClasses(isActive)}
+              // className={({ isActive }) => navClasses(isActive)}
+              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <LayoutDashboard size={20} />
               Панель
             </Link>
-            <a
-              href="#"
+
+            <Link
+              to="/weather"
+              // className={({ isActive }) => navClasses(isActive)}
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
-            >
-              <Wallet size={20} />
-              Финансы
-            </a>
-            <a
-              href="#"
-              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
+              search={undefined}
             >
               <CloudSun size={20} />
               Прогноз погоды
-            </a>
+            </Link>
           </nav>
         </div>
 
@@ -66,8 +63,8 @@ export const Sidebar = () => {
           <nav className="space-y-1">
             <Link
               to="/fields"
-              className={`({ isActive: string }) => navClasses(isActive) flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors`}
-              className={({ isActive }) => navClasses(isActive)}
+              // className={({ isActive }) => navClasses(isActive)}
+              className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Grid size={20} />
               Поля

@@ -83,7 +83,7 @@ async function callDeepSeek(messages: Array<DeepSeekMessage>) {
     },
     body: JSON.stringify({
       model: 'deepseek-chat',
-      temperature: 0.2,
+      temperature: 1.2,
       messages,
     }),
   })
