@@ -1,19 +1,19 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import {
-  Play,
-  Code,
-  Zap,
-  MessageCircle,
-  CheckCircle2,
-  ExternalLink,
-  Rocket,
+  ArrowRight,
   Brain,
+  CheckCircle2,
+  Code,
   Database,
+  ExternalLink,
+  MessageCircle,
+  Play,
+  Rocket,
   Smartphone,
   TrendingUp,
   Users,
-  ArrowRight,
+  Zap,
 } from 'lucide-react'
 import { askDemoBot } from '@/src/server/demoBot'
 
@@ -31,7 +31,7 @@ function DemoPage() {
   const [chatMessages, setChatMessages] = useState<Array<ChatMessage>>([])
   const [isLoading, setIsLoading] = useState(false)
   const [youtubeUrl, setYoutubeUrl] = useState(
-    'https://www.youtube.com/embed/t8co94HS6tY',
+    'https://www.youtube.com/embed/n27QvPQd1UA',
   )
 
   const handleChatSubmit = async (question?: string) => {
