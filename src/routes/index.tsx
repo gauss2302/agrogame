@@ -1,13 +1,13 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
-import Game from '../components/Game'
+import { Link, createFileRoute } from '@tanstack/react-router'
 import {
+  ArrowRight,
   CheckCircle2,
+  ShoppingBasket,
   Sprout,
   TrendingUp,
   Users,
-  ShoppingBasket,
-  ArrowRight,
 } from 'lucide-react'
+import Game from '../components/Game'
 import ProblemSolutionSection from '@/components/landing/problem'
 import ImplementationSection from '@/components/landing/Implementation'
 
@@ -68,12 +68,19 @@ function LandingPage() {
               </h1>
             </div>
 
-            <div className="space-x-6">
+            <div className="space-x-9">
               <Link
                 to="/game"
                 className="inline-flex items-center gap-3 bg-gradient-to-b from-[#8BC34A] to-[#689F38] text-white text-2xl font-black py-4 px-10 rounded-full border-b-8 border-[#33691E] shadow-[0_12px_0_#2E7D32,0_0_25px_rgba(0,0,0,0.35)] hover:-translate-y-1 hover:border-b-[12px] hover:shadow-[0_16px_0_#2E7D32,0_0_35px_rgba(0,0,0,0.45)] active:translate-y-2 active:border-b-0 transition-all"
               >
                 ИГРАТЬ <ArrowRight size={32} strokeWidth={3} />
+              </Link>
+
+              <Link
+                to="/demo"
+                className="inline-flex items-center gap-3 bg-gradient-to-b from-[#8BC34A] to-[#689F38] text-white text-2xl font-black py-4 px-10 rounded-full border-b-8 border-[#33691E] shadow-[0_12px_0_#2E7D32,0_0_25px_rgba(0,0,0,0.35)] hover:-translate-y-1 hover:border-b-[12px] hover:shadow-[0_16px_0_#2E7D32,0_0_35px_rgba(0,0,0,0.45)] active:translate-y-2 active:border-b-0 transition-all"
+              >
+                ДЕМО <ArrowRight size={32} strokeWidth={3} />
               </Link>
 
               <Link
@@ -407,7 +414,7 @@ function LandingPage() {
             to="/"
             className="inline-flex items-center gap-3 bg-gradient-to-b from-[#FFCA28] to-[#FFB300] text-[#3E2723] text-3xl font-black py-6 px-16 rounded-full border-b-8 border-[#FF6F00] shadow-[0_10px_20px_rgba(0,0,0,0.2)] hover:-translate-y-1 hover:border-b-[12px] hover:shadow-2xl active:translate-y-2 active:border-b-0 transition-all"
           >
-            START FARMING NOW!
+            НАЧНИ САЖАТЬ СЕЙЧАС
           </Link>
         </div>
       </div>
