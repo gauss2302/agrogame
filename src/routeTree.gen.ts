@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WeatherRouteImport } from './routes/weather'
+import { Route as PestsRouteImport } from './routes/pests'
+import { Route as IrrigationRouteImport } from './routes/irrigation'
 import { Route as GameRouteImport } from './routes/game'
 import { Route as FieldsRouteImport } from './routes/fields'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -18,6 +20,16 @@ import { Route as IndexRouteImport } from './routes/index'
 const WeatherRoute = WeatherRouteImport.update({
   id: '/weather',
   path: '/weather',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PestsRoute = PestsRouteImport.update({
+  id: '/pests',
+  path: '/pests',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IrrigationRoute = IrrigationRouteImport.update({
+  id: '/irrigation',
+  path: '/irrigation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GameRoute = GameRouteImport.update({
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/fields': typeof FieldsRoute
   '/game': typeof GameRoute
+  '/irrigation': typeof IrrigationRoute
+  '/pests': typeof PestsRoute
   '/weather': typeof WeatherRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/fields': typeof FieldsRoute
   '/game': typeof GameRoute
+  '/irrigation': typeof IrrigationRoute
+  '/pests': typeof PestsRoute
   '/weather': typeof WeatherRoute
 }
 export interface FileRoutesById {
@@ -61,14 +77,38 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/fields': typeof FieldsRoute
   '/game': typeof GameRoute
+  '/irrigation': typeof IrrigationRoute
+  '/pests': typeof PestsRoute
   '/weather': typeof WeatherRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/fields' | '/game' | '/weather'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/fields'
+    | '/game'
+    | '/irrigation'
+    | '/pests'
+    | '/weather'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/fields' | '/game' | '/weather'
-  id: '__root__' | '/' | '/dashboard' | '/fields' | '/game' | '/weather'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/fields'
+    | '/game'
+    | '/irrigation'
+    | '/pests'
+    | '/weather'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/fields'
+    | '/game'
+    | '/irrigation'
+    | '/pests'
+    | '/weather'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +116,8 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   FieldsRoute: typeof FieldsRoute
   GameRoute: typeof GameRoute
+  IrrigationRoute: typeof IrrigationRoute
+  PestsRoute: typeof PestsRoute
   WeatherRoute: typeof WeatherRoute
 }
 
@@ -86,6 +128,20 @@ declare module '@tanstack/react-router' {
       path: '/weather'
       fullPath: '/weather'
       preLoaderRoute: typeof WeatherRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pests': {
+      id: '/pests'
+      path: '/pests'
+      fullPath: '/pests'
+      preLoaderRoute: typeof PestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/irrigation': {
+      id: '/irrigation'
+      path: '/irrigation'
+      fullPath: '/irrigation'
+      preLoaderRoute: typeof IrrigationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/game': {
@@ -124,6 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   FieldsRoute: FieldsRoute,
   GameRoute: GameRoute,
+  IrrigationRoute: IrrigationRoute,
+  PestsRoute: PestsRoute,
   WeatherRoute: WeatherRoute,
 }
 export const routeTree = rootRouteImport

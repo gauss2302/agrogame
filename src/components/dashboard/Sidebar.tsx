@@ -69,13 +69,13 @@ export const Sidebar = () => {
               <Grid size={20} />
               Поля
             </Link>
-            <a
-              href="#"
+            <Link
+              to="/irrigation"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Droplets size={20} />
               Полив
-            </a>
+            </Link>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
@@ -83,13 +83,13 @@ export const Sidebar = () => {
               <Sprout size={20} />
               План урожая
             </a>
-            <a
-              href="#"
+            <Link
+              to="/pests"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Bug size={20} />
               Вредители
-            </a>
+            </Link>
             <a
               href="#"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
