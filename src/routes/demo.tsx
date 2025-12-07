@@ -595,7 +595,7 @@ function DemoPage() {
       <footer className="bg-[#8D6E63] border-t-4 border-[#5D4037] py-8">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-white font-bold">
-            © 2024 AgroGame. Революция в агросекторе Узбекистана.
+            © 2025 AgroGame. Революция в агросекторе Узбекистана.
           </p>
           <p className="text-white/80 text-sm mt-2">
             Stage 2 — IT Park Uzbekistan Hackathon
