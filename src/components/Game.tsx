@@ -48,6 +48,9 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
   const [error, setError] = useState<string | null>(null)
   const [notification, setNotification] = useState<string | null>(null)
   const [claimLoading, setClaimLoading] = useState(false)
+  const [harvestingPlot, setHarvestingPlot] = useState<number | null>(null)
+  const [plantingPlot, setPlantingPlot] = useState<number | null>(null)
+  const [celebrationCoins, setCelebrationCoins] = useState<{id: number, value: number, x: number, y: number}[]>([])
   const isDesktop = useIsDesktop()
 
   const loadFarm = useCallback(async () => {
@@ -138,6 +141,8 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
     }
 
     try {
+      setPlantingPlot(plot.id)
+
       const result = await plantCrop({
         data: { plotId: plot.id, cropType: selectedCrop },
       })
@@ -162,10 +167,13 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
 
       showNotification(`🌱 Посажено ${CROPS[selectedCrop].name}!`)
 
+      setTimeout(() => setPlantingPlot(null), 600)
+
       if (onUpdate) {
         onUpdate()
       }
     } catch (err: any) {
+      setPlantingPlot(null)
       showNotification(`❌ ${err.message}`)
     }
   }
@@ -174,7 +182,23 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
     if (plot.stage !== 'ready' || !plot.crop) return
 
     try {
+      setHarvestingPlot(plot.id)
+
       const result = await harvestCrop({ data: { plotId: plot.id } })
+
+      // Add floating coin animation
+      const newCoins = Array.from({ length: 5 }, (_, i) => ({
+        id: Date.now() + i,
+        value: result.earnedCoins,
+        x: Math.random() * 100 - 50,
+        y: Math.random() * 50,
+      }))
+      setCelebrationCoins(prev => [...prev, ...newCoins])
+
+      // Remove coins after animation
+      setTimeout(() => {
+        setCelebrationCoins(prev => prev.filter(c => !newCoins.find(nc => nc.id === c.id)))
+      }, 2000)
 
       setFarm((prev) =>
         prev
@@ -199,17 +223,20 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
         ),
       )
 
-      let msg = `Собрано ${CROPS[result.harvestedCrop].name}! (+${result.earnedCoins} монет)`
+      let msg = `✨ Собрано ${CROPS[result.harvestedCrop].name}! (+${result.earnedCoins} монет)`
       if (result.realProductsReady > 0 && result.progressToNextReal === 0) {
         msg += ` 🎉 New real product ready!`
       }
       showNotification(msg)
+
+      setTimeout(() => setHarvestingPlot(null), 600)
 
       // Trigger update callback
       if (onUpdate) {
         onUpdate()
       }
     } catch (err: any) {
+      setHarvestingPlot(null)
       showNotification(`❌ ${err.message}`)
     }
   }
@@ -294,10 +321,25 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
   return (
     <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 w-full max-w-7xl mx-auto p-2 sm:p-4 items-start">
       {notification && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-white px-6 py-3 rounded-2xl shadow-lg border-2 border-green-500 font-bold text-green-800 animate-bounce">
-          {notification}
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-yellow-200 via-green-200 to-yellow-200 px-6 py-3 rounded-2xl shadow-[0_0_30px_rgba(76,175,80,0.6)] border-4 border-white font-black text-green-900 animate-[slideDown_0.3s_ease-out,wiggle_0.5s_ease-in-out_0.3s_2] text-lg">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-[shimmer_1.5s_linear_infinite]" />
+          <span className="relative z-10">{notification}</span>
         </div>
       )}
+
+      {/* Floating Coins Animation */}
+      {celebrationCoins.map(coin => (
+        <div
+          key={coin.id}
+          className="fixed top-1/2 left-1/2 z-50 text-3xl font-black text-yellow-500 pointer-events-none animate-[floatUp_2s_ease-out_forwards] drop-shadow-[0_0_10px_rgba(255,215,0,0.8)]"
+          style={{
+            transform: `translate(${coin.x}px, ${coin.y}px)`,
+            textShadow: '2px 2px 4px rgba(0,0,0,0.3), 0 0 20px rgba(255,215,0,0.6)'
+          }}
+        >
+          +{coin.value}💰
+        </div>
+      ))}
 
       {/* Game Board */}
       <div className="flex-1 bg-gradient-to-b from-[#7EC850] via-[#6AB43F] to-[#5DA036] p-4 sm:p-6 md:p-8 rounded-3xl border-4 border-white shadow-[0_10px_0_rgba(76,175,80,0.4)] relative overflow-hidden min-h-[500px] sm:min-h-[600px] flex items-center justify-center">
@@ -361,7 +403,12 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
                   key={plot.id}
                   onClick={() => handlePlotClick(plot)}
                   style={plotStyles}
-                  className="relative sm:absolute cursor-pointer transition-transform duration-200 hover:-translate-y-2 hover:brightness-110 w-full aspect-square sm:w-[190px] sm:h-[190px]"
+                  className={`relative sm:absolute cursor-pointer transition-all duration-300 w-full aspect-square sm:w-[190px] sm:h-[190px]
+                    ${plot.stage === 'empty' ? 'hover:scale-110 hover:-translate-y-3 hover:brightness-110 hover:drop-shadow-[0_0_20px_rgba(139,195,74,0.8)]' : ''}
+                    ${plot.stage === 'ready' ? 'hover:scale-105 hover:-translate-y-2' : ''}
+                    ${plantingPlot === plot.id ? 'animate-[plant_0.6s_ease-out]' : ''}
+                    ${harvestingPlot === plot.id ? 'animate-[harvest_0.6s_ease-out]' : ''}
+                  `}
                 >
                   <img
                     src="/game/field_ground.png"
@@ -374,6 +421,21 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
                     className="block sm:hidden w-full h-full object-cover rounded-lg"
                   />
 
+                  {/* Sparkle effects for ready crops */}
+                  {plot.stage === 'ready' && (
+                    <>
+                      <div className="absolute top-0 left-1/4 text-2xl animate-[sparkle_1.5s_ease-in-out_infinite]">✨</div>
+                      <div className="absolute top-1/4 right-1/4 text-2xl animate-[sparkle_1.5s_ease-in-out_infinite_0.5s]">⭐</div>
+                      <div className="absolute bottom-1/4 left-1/3 text-xl animate-[sparkle_1.5s_ease-in-out_infinite_1s]">✨</div>
+                      <div className="absolute inset-0 bg-yellow-200/20 blur-xl rounded-full animate-pulse pointer-events-none" />
+                    </>
+                  )}
+
+                  {/* Glow effect for interactive plots */}
+                  {plot.stage === 'empty' && (
+                    <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-green-400/30 blur-lg animate-pulse pointer-events-none" />
+                  )}
+
                   {plot.crop && plot.stage !== 'empty' && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
                       <img
@@ -383,11 +445,14 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
                             : CROPS[plot.crop].image
                         }
                         alt={plot.crop}
-                        className={`w-[60%] h-[60%] object-contain drop-shadow-lg transition-all duration-500
-                          ${plot.stage === 'planted' ? 'scale-75' : ''}
-                          ${plot.stage === 'growing' ? 'scale-75' : ''}
-                          ${plot.stage === 'ready' ? 'scale-100 animate-bounce' : ''}
+                        className={`w-[60%] h-[60%] object-contain drop-shadow-lg transition-all duration-700
+                          ${plot.stage === 'planted' ? 'scale-50 opacity-70 animate-[grow_0.5s_ease-out]' : ''}
+                          ${plot.stage === 'growing' ? 'scale-90 animate-[wiggle_2s_ease-in-out_infinite]' : ''}
+                          ${plot.stage === 'ready' ? 'scale-110 animate-[bounce_1s_ease-in-out_infinite] drop-shadow-[0_0_15px_rgba(139,195,74,0.8)]' : ''}
                           ${(plot.stage !== 'planted' && CROPS[plot.crop].className) || ''}`}
+                        style={{
+                          filter: plot.stage === 'ready' ? 'brightness(1.2) saturate(1.3)' : 'brightness(1)'
+                        }}
                       />
                     </div>
                   )}
@@ -407,55 +472,63 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
           </h2>
 
           <div className="space-y-4">
-            <div className="bg-gradient-to-br from-[#FFF9C4] to-[#FFEB3B] p-4 rounded-2xl border-2 border-white shadow-md">
+            <div className="bg-gradient-to-br from-[#FFF9C4] to-[#FFEB3B] p-4 rounded-2xl border-2 border-white shadow-[0_0_20px_rgba(255,235,59,0.5)] relative overflow-hidden group hover:scale-105 transition-transform duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 group-hover:animate-[shimmer_1.5s_linear_infinite]" />
               <div className="text-xs font-black text-[#F57F17] uppercase">
                 💰 Монеты
               </div>
-              <div className="text-4xl font-black text-[#F57F17]">
+              <div className="text-4xl font-black text-[#F57F17] animate-[pulse_2s_ease-in-out_infinite] drop-shadow-[0_0_10px_rgba(245,127,23,0.4)]">
                 {farm?.coins ?? 0}
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-[#C8E6C9] to-[#81C784] p-4 rounded-2xl border-2 border-white shadow-md">
+            <div className="bg-gradient-to-br from-[#C8E6C9] to-[#81C784] p-4 rounded-2xl border-2 border-white shadow-[0_0_20px_rgba(129,199,132,0.5)] relative overflow-hidden group hover:scale-105 transition-transform duration-300">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 group-hover:animate-[shimmer_1.5s_linear_infinite]" />
               <div className="text-xs font-black text-[#1B5E20] uppercase">
                 🌾 Игровой уражай
               </div>
-              <div className="text-4xl font-black text-[#1B5E20]">
+              <div className="text-4xl font-black text-[#1B5E20] drop-shadow-[0_0_10px_rgba(27,94,32,0.4)]">
                 {farm?.realCrops ?? 0}
               </div>
               <div className="mt-3">
                 <div className="flex justify-between text-xs font-bold text-[#2E7D32] mb-1">
                   <span>До настоящих продуктов</span>
-                  <span>
+                  <span className="animate-pulse">
                     {progressToNext}/{VIRTUAL_TO_REAL_RATIO}
                   </span>
                 </div>
-                <div className="h-3 bg-white/50 rounded-full overflow-hidden">
+                <div className="h-3 bg-white/50 rounded-full overflow-hidden shadow-inner">
                   <div
-                    className="h-full bg-gradient-to-r from-[#4CAF50] to-[#8BC34A] transition-all"
+                    className="h-full bg-gradient-to-r from-[#4CAF50] via-[#66BB6A] to-[#8BC34A] transition-all duration-500 relative overflow-hidden shadow-[0_0_10px_rgba(76,175,80,0.6)]"
                     style={{ width: `${progressPercent}%` }}
-                  />
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-40 animate-[shimmer_2s_linear_infinite]" />
+                  </div>
                 </div>
               </div>
             </div>
 
             {realProductsReady > 0 && (
-              <div className="bg-gradient-to-br from-[#FFECB3] to-[#FFD54F] p-4 rounded-2xl border-2 border-white shadow-md animate-pulse">
-                <div className="flex items-center gap-2 mb-2">
-                  <Gift className="text-[#E65100]" size={20} />
+              <div className="bg-gradient-to-br from-[#FFECB3] to-[#FFD54F] p-4 rounded-2xl border-4 border-white shadow-[0_0_30px_rgba(255,193,7,0.8),0_0_60px_rgba(255,152,0,0.4)] relative overflow-hidden animate-[wiggle_0.5s_ease-in-out_infinite]">
+                <div className="absolute top-0 left-0 text-3xl animate-[sparkle_1s_ease-in-out_infinite]">🎉</div>
+                <div className="absolute top-0 right-0 text-3xl animate-[sparkle_1s_ease-in-out_infinite_0.3s]">✨</div>
+                <div className="absolute bottom-0 left-1/3 text-2xl animate-[sparkle_1s_ease-in-out_infinite_0.6s]">⭐</div>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-[shimmer_2s_linear_infinite]" />
+                <div className="flex items-center gap-2 mb-2 relative z-10">
+                  <Gift className="text-[#E65100] animate-bounce" size={20} />
                   <span className="text-xs font-black text-[#E65100] uppercase">
                     Real Products Ready!
                   </span>
                 </div>
-                <div className="text-2xl font-black text-[#E65100] mb-2">
+                <div className="text-2xl font-black text-[#E65100] mb-2 relative z-10 drop-shadow-[0_0_10px_rgba(230,81,0,0.5)] animate-pulse">
                   {realProductsReady} 📦
                 </div>
                 <button
                   onClick={handleClaimProducts}
                   disabled={claimLoading}
-                  className="w-full bg-gradient-to-r from-[#FF9800] to-[#F57C00] text-white font-black py-2 px-4 rounded-xl border-b-4 border-[#E65100] hover:brightness-110 active:border-b-0 active:translate-y-1 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="relative z-10 w-full bg-gradient-to-r from-[#FF9800] to-[#F57C00] text-white font-black py-2 px-4 rounded-xl border-b-4 border-[#E65100] hover:brightness-110 hover:scale-105 hover:shadow-[0_0_20px_rgba(255,152,0,0.8)] active:border-b-0 active:translate-y-1 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  <Truck size={18} />
+                  <Truck size={18} className="animate-bounce" />
                   {claimLoading ? 'Claiming...' : 'Claim for Delivery'}
                 </button>
               </div>
@@ -473,36 +546,136 @@ export default function Game({ onUpdate }: { onUpdate?: () => void }) {
               <button
                 key={crop}
                 onClick={() => setSelectedCrop(crop)}
-                className={`flex items-center gap-4 p-4 rounded-2xl transition-all active:scale-95
+                className={`relative flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 active:scale-95 overflow-hidden group
                   ${
                     selectedCrop === crop
-                      ? 'bg-gradient-to-r from-[#FFF9C4] to-[#FFEB3B] border-4 border-white shadow-lg scale-105'
-                      : 'bg-white/80 border-2 border-gray-200 hover:border-[#4CAF50]'
+                      ? 'bg-gradient-to-r from-[#FFF9C4] to-[#FFEB3B] border-4 border-white shadow-[0_0_20px_rgba(255,235,59,0.6)] scale-105'
+                      : 'bg-white/80 border-2 border-gray-200 hover:border-[#4CAF50] hover:shadow-[0_0_15px_rgba(76,175,80,0.3)] hover:scale-102'
                   }`}
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-[#E8F5E9] to-[#C8E6C9] rounded-xl p-1 border-2 border-white">
+                {selectedCrop === crop && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-[shimmer_1.5s_linear_infinite]" />
+                )}
+                <div className={`w-14 h-14 bg-gradient-to-br from-[#E8F5E9] to-[#C8E6C9] rounded-xl p-1 border-2 border-white transition-transform ${selectedCrop === crop ? 'animate-bounce' : 'group-hover:scale-110'}`}>
                   <img
                     src={CROPS[crop].image}
                     alt={crop}
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="text-left flex-1">
+                <div className="text-left flex-1 relative z-10">
                   <div className="font-black text-[#2E7D32] text-lg">
                     {CROPS[crop].name}
                   </div>
-                  <div className="text-xs font-bold text-white bg-gradient-to-r from-[#FF9800] to-[#F57C00] inline-block px-2 py-0.5 rounded-full mt-1">
+                  <div className="text-xs font-bold text-white bg-gradient-to-r from-[#FF9800] to-[#F57C00] inline-block px-2 py-0.5 rounded-full mt-1 shadow-md">
                     💰 +{CROPS[crop].value}
                   </div>
                 </div>
                 {selectedCrop === crop && (
-                  <span className="text-[#4CAF50] text-xl">✓</span>
+                  <span className="text-[#4CAF50] text-2xl animate-[pulse_1s_ease-in-out_infinite] drop-shadow-[0_0_8px_rgba(76,175,80,0.8)] relative z-10">✓</span>
                 )}
               </button>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes slideDown {
+          from {
+            transform: translate(-50%, -150%);
+            opacity: 0;
+          }
+          to {
+            transform: translate(-50%, 0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes wiggle {
+          0%, 100% { transform: rotate(0deg); }
+          25% { transform: rotate(-3deg); }
+          50% { transform: rotate(0deg); }
+          75% { transform: rotate(3deg); }
+        }
+
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(200%); }
+        }
+
+        @keyframes floatUp {
+          0% {
+            transform: translate(var(--tx, 0), var(--ty, 0)) scale(0.5);
+            opacity: 1;
+          }
+          50% {
+            transform: translate(var(--tx, 0), calc(var(--ty, 0) - 80px)) scale(1.2);
+            opacity: 1;
+          }
+          100% {
+            transform: translate(var(--tx, 0), calc(var(--ty, 0) - 150px)) scale(0.8);
+            opacity: 0;
+          }
+        }
+
+        @keyframes plant {
+          0% { transform: scale(1.2) translateY(-20px); opacity: 0.5; }
+          50% { transform: scale(0.9) translateY(5px); }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        @keyframes harvest {
+          0% { transform: scale(1) rotate(0deg); }
+          25% { transform: scale(1.15) rotate(-5deg); }
+          50% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+          75% { transform: scale(1.15) rotate(-3deg); opacity: 0.5; }
+          100% { transform: scale(0.8) rotate(0deg); opacity: 0; }
+        }
+
+        @keyframes sparkle {
+          0%, 100% {
+            transform: scale(1) translateY(0);
+            opacity: 0.8;
+          }
+          50% {
+            transform: scale(1.5) translateY(-10px);
+            opacity: 1;
+          }
+        }
+
+        @keyframes grow {
+          0% {
+            transform: scale(0) rotate(-45deg);
+            opacity: 0;
+          }
+          60% {
+            transform: scale(0.6) rotate(5deg);
+            opacity: 0.8;
+          }
+          100% {
+            transform: scale(0.5) rotate(0deg);
+            opacity: 0.7;
+          }
+        }
+
+        @keyframes bounce {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.05);
+            opacity: 0.9;
+          }
+        }
+      `}</style>
     </div>
   )
 }
