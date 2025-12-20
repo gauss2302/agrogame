@@ -97,13 +97,13 @@ export const Sidebar = () => {
               <Leaf size={20} />
               Почва и культуры
             </a>
-            <a
-              href="#"
+            <Link
+              to="/equipment"
               className="flex items-center gap-3 px-4 py-3 text-gray-600 hover:bg-gray-50 rounded-lg font-medium transition-colors"
             >
               <Tractor size={20} />
               Оборудование
-            </a>
+            </Link>
           </nav>
         </div>
 
