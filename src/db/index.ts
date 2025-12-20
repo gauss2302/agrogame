@@ -19,15 +19,17 @@ function getDatabaseUrl() {
   }
 
   const {
-    POSTGRES_USER = 'agro',
-    POSTGRES_PASSWORD = 'agro',
+    POSTGRES_USER,
+    POSTGRES_PASSWORD,
     POSTGRES_DB = 'agrogame',
     POSTGRES_HOST = 'localhost',
     POSTGRES_PORT = '5432',
   } = process.env
 
-  if (!POSTGRES_USER || !POSTGRES_DB) {
-    throw new Error('Missing DATABASE_URL or POSTGRES_* env vars for database connection')
+  if (!POSTGRES_USER || !POSTGRES_PASSWORD || !POSTGRES_DB) {
+    throw new Error(
+      'Missing required database credentials. Set DATABASE_URL or all of: POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB'
+    )
   }
 
   return `postgres://${encodeURIComponent(POSTGRES_USER)}:${encodeURIComponent(POSTGRES_PASSWORD)}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}`
